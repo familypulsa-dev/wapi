@@ -19,7 +19,7 @@
 ## Installation
 
 ```bash
-go get github.com/ferdinandanggris/wapi
+go get github.com/familypulsa-dev/wapi
 ```
 
 ## Quick Start
@@ -32,8 +32,8 @@ import (
     "fmt"
     "os"
 
-    "github.com/ferdinandanggris/wapi/cloud"
-    "github.com/ferdinandanggris/wapi/types"
+    "github.com/familypulsa-dev/wapi/cloud"
+    "github.com/familypulsa-dev/wapi/types"
 )
 
 func main() {
@@ -245,8 +245,8 @@ import (
     "net/http"
     "os"
 
-    "github.com/ferdinandanggris/wapi/types"
-    "github.com/ferdinandanggris/wapi/webhook"
+    "github.com/familypulsa-dev/wapi/types"
+    "github.com/familypulsa-dev/wapi/webhook"
 )
 
 func main() {
@@ -364,7 +364,7 @@ client = cloud.New(cloud.WithHTTPClient(hc))
 ## Mock Server
 
 ```go
-import "github.com/ferdinandanggris/wapi/cloud"
+import "github.com/familypulsa-dev/wapi/cloud"
 
 func TestSomething(t *testing.T) {
     mock := cloud.NewMockServer(cloud.MockConfig{})
