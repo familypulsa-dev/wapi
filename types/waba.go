@@ -14,3 +14,26 @@ type WABAList struct {
 	Data   []*WhatsAppBusinessAccount `json:"data"`
 	Paging *Paging                    `json:"paging,omitempty"`
 }
+
+// WhatsAppPricingAnalyticsResponse represents the response from the pricing_analytics endpoint.
+type WhatsAppPricingAnalyticsResponse struct {
+	PricingAnalytics *PricingAnalyticsData `json:"pricing_analytics,omitempty"`
+	ID               string                `json:"id,omitempty"`
+}
+
+type PricingAnalyticsData struct {
+	Data []PricingAnalyticsGroup `json:"data,omitempty"`
+}
+
+type PricingAnalyticsGroup struct {
+	DataPoints []PricingDataPoint `json:"data_points,omitempty"`
+}
+
+type PricingDataPoint struct {
+	Start           int64   `json:"start"`
+	End             int64   `json:"end"`
+	PhoneNumber     string  `json:"phone_number"`
+	PricingCategory string  `json:"pricing_category"`
+	Volume          int     `json:"volume"`
+	Cost            float64 `json:"cost"`
+}

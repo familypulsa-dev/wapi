@@ -32,3 +32,17 @@ func (c *CloudClient) ListWhatsAppBusinessAccounts(ctx context.Context, business
 	}
 	return &list, nil
 }
+
+// GetWABAPricingAnalytics fetches pricing analytics for a WABA.
+func (c *CloudClient) GetWABAPricingAnalytics(ctx context.Context, wabaID string, start, end int64) (*types.WhatsAppPricingAnalyticsResponse, error) {
+	// e.g. fields=pricing_analytics.start({start}).end({end}).granularity(DAILY).phone_numbers([]).dimensions(["PHONE","PRICING_CATEGORY"])
+	v := url.Values{}
+	fields := fmt.Sprintf(`pricing_analytics.start(%d).end(%d).granularity(DAILY).phone_numbers([]).dimensions(["PHONE","PRICING_CATEGORY"])`, start, end)
+	v.Set("fields", fields)
+
+	var res types.WhatsAppPricingAnalyticsResponse
+	if err := c.doGet(ctx, wabaID, v, &res); err != nil {
+		return nil, fmt.Errorf("get waba pricing analytics: %w", err)
+	}
+	return &res, nil
+}

@@ -38,6 +38,7 @@ type Client interface {
 	ResumableUpload(ctx context.Context, appID string, data []byte, mimeType string) (string, error)
 
 	ListWhatsAppBusinessAccounts(ctx context.Context, businessID string, opts ...ListOption) (*types.WABAList, error)
+	GetWABAPricingAnalytics(ctx context.Context, wabaID string, start, end int64) (*types.WhatsAppPricingAnalyticsResponse, error)
 
 	SubscribeToWebhooks(ctx context.Context, wabaID string) (*types.SubscribedApp, error)
 	UnsubscribeFromWebhooks(ctx context.Context, wabaID string) error
