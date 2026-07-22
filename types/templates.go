@@ -73,11 +73,12 @@ type Template struct {
 }
 
 type TemplateComponent struct {
-	Type    string            `json:"type"`
-	Format  string            `json:"format,omitempty"`
-	Text    string            `json:"text,omitempty"`
-	Example json.RawMessage   `json:"example,omitempty"`
-	Buttons []*TemplateButton `json:"buttons,omitempty"`
+	Type                      string            `json:"type"`
+	AddSecurityRecommendation *bool             `json:"add_security_recommendation,omitempty"`
+	Format                    string            `json:"format,omitempty"`
+	Text                      string            `json:"text,omitempty"`
+	Example                   json.RawMessage   `json:"example,omitempty"`
+	Buttons                   []*TemplateButton `json:"buttons,omitempty"`
 }
 
 type TemplateButton struct {
