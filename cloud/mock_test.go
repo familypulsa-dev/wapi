@@ -136,6 +136,17 @@ func newDefaultMockServer() *mockServer {
 			},
 		})
 	})
+	ms.on("POST", "/waba-456/phone_numbers", func(w http.ResponseWriter, r *http.Request) {
+		var req map[string]string
+		_ = parseBody(r, &req)
+		writeJSON(w, http.StatusOK, map[string]string{"id": "110200345501442"})
+	})
+	ms.on("POST", "/123/request_code", func(w http.ResponseWriter, r *http.Request) {
+		writeJSON(w, http.StatusOK, map[string]bool{"success": true})
+	})
+	ms.on("POST", "/123/verify_code", func(w http.ResponseWriter, r *http.Request) {
+		writeJSON(w, http.StatusOK, map[string]bool{"success": true})
+	})
 	ms.on("POST", "/123/register", func(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, http.StatusOK, map[string]bool{"success": true})
 	})

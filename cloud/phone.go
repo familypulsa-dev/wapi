@@ -7,6 +7,28 @@ import (
 	"github.com/familypulsa-dev/wapi/types"
 )
 
+// CreatePhoneNumber creates a new business phone number on a WABA.
+func (c *CloudClient) CreatePhoneNumber(ctx context.Context, wabaID string, req *types.CreatePhoneNumberRequest) (*types.CreatePhoneNumberResponse, error) {
+	path := fmt.Sprintf("%s/phone_numbers", wabaID)
+	var resp types.CreatePhoneNumberResponse
+	if err := c.do(ctx, "POST", path, req, &resp); err != nil {
+		return nil, fmt.Errorf("create phone number: %w", err)
+	}
+	return &resp, nil
+}
+
+// RequestVerificationCode sends a verification code via SMS or VOICE.
+func (c *CloudClient) RequestVerificationCode(ctx context.Context, phoneNumberID, codeMethod, language string) error {
+	path := fmt.Sprintf("%s/request_code?code_method=%s&language=%s", phoneNumberID, codeMethod, language)
+	return c.do(ctx, "POST", path, nil, nil)
+}
+
+// VerifyCode confirms the verification code for a phone number.
+func (c *CloudClient) VerifyCode(ctx context.Context, phoneNumberID, code string) error {
+	path := fmt.Sprintf("%s/verify_code?code=%s", phoneNumberID, code)
+	return c.do(ctx, "POST", path, nil, nil)
+}
+
 // RegisterPhone registers a phone number with a 6-digit PIN.
 func (c *CloudClient) RegisterPhone(ctx context.Context, phoneNumberID, pin string) error {
 	body := map[string]string{
@@ -23,10 +45,13 @@ func (c *CloudClient) DeregisterPhone(ctx context.Context, phoneNumberID string)
 	return c.do(ctx, "POST", path, map[string]string{"messaging_product": "whatsapp"}, nil)
 }
 
+const phoneFields = "id,display_phone_number,verified_name,quality_rating,name_status,code_verification_status,status,pin_enabled"
+
 // GetPhoneNumber returns details for a specific phone number.
 func (c *CloudClient) GetPhoneNumber(ctx context.Context, phoneNumberID string) (*types.PhoneNumber, error) {
+	path := fmt.Sprintf("%s?fields=%s", phoneNumberID, phoneFields)
 	var pn types.PhoneNumber
-	if err := c.do(ctx, "GET", phoneNumberID, nil, &pn); err != nil {
+	if err := c.do(ctx, "GET", path, nil, &pn); err != nil {
 		return nil, fmt.Errorf("get phone number: %w", err)
 	}
 	return &pn, nil
@@ -34,7 +59,7 @@ func (c *CloudClient) GetPhoneNumber(ctx context.Context, phoneNumberID string) 
 
 // ListPhoneNumbers returns all phone numbers associated with a WABA.
 func (c *CloudClient) ListPhoneNumbers(ctx context.Context, wabaID string) ([]*types.PhoneNumber, error) {
-	path := fmt.Sprintf("%s/phone_numbers", wabaID)
+	path := fmt.Sprintf("%s/phone_numbers?fields=%s", wabaID, phoneFields)
 	var result struct {
 		Data []*types.PhoneNumber `json:"data"`
 	}

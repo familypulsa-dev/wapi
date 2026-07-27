@@ -19,6 +19,47 @@ func TestRegisterPhone(t *testing.T) {
 	}
 }
 
+func TestCreatePhoneNumber(t *testing.T) {
+	ms := newDefaultMockServer()
+	defer ms.Close()
+
+	c := ms.client()
+	req := &types.CreatePhoneNumberRequest{
+		CC:           "1",
+		PhoneNumber:  "15551234",
+		VerifiedName: "Lucky Shrub",
+	}
+	resp, err := c.CreatePhoneNumber(context.Background(), "waba-456", req)
+	if err != nil {
+		t.Fatalf("CreatePhoneNumber failed: %v", err)
+	}
+	if resp.ID != "110200345501442" {
+		t.Errorf("expected 110200345501442, got %s", resp.ID)
+	}
+}
+
+func TestRequestVerificationCode(t *testing.T) {
+	ms := newDefaultMockServer()
+	defer ms.Close()
+
+	c := ms.client()
+	err := c.RequestVerificationCode(context.Background(), "123", "SMS", "en_US")
+	if err != nil {
+		t.Fatalf("RequestVerificationCode failed: %v", err)
+	}
+}
+
+func TestVerifyCode(t *testing.T) {
+	ms := newDefaultMockServer()
+	defer ms.Close()
+
+	c := ms.client()
+	err := c.VerifyCode(context.Background(), "123", "123830")
+	if err != nil {
+		t.Fatalf("VerifyCode failed: %v", err)
+	}
+}
+
 func TestDeregisterPhone(t *testing.T) {
 	ms := newMockServer()
 	defer ms.Close()

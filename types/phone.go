@@ -8,7 +8,9 @@ type PhoneNumber struct {
 	QualityRating          string `json:"quality_rating"`
 	MessagingLimit         string `json:"messaging_limit"`
 	PlatformType           string `json:"platform_type"`
+	NameStatus             string `json:"name_status"`
 	CodeVerificationStatus string `json:"code_verification_status"`
+	Status                 string `json:"status"`
 	PinEnabled             bool   `json:"pin_enabled"`
 	Throughput             *Throughput `json:"throughput,omitempty"`
 }
@@ -33,4 +35,14 @@ type BusinessProfile struct {
 type RegisterRequest struct {
 	MessagingProduct string `json:"messaging_product"`
 	Pin              string `json:"pin"`
+}
+
+type CreatePhoneNumberRequest struct {
+	CC           string `json:"cc"`
+	PhoneNumber  string `json:"phone_number"`
+	VerifiedName string `json:"verified_name"`
+}
+
+type CreatePhoneNumberResponse struct {
+	ID string `json:"id"`
 }

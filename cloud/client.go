@@ -187,11 +187,13 @@ type metaErrorResponse struct {
 }
 
 type metaError struct {
-	Message   string `json:"message"`
-	Type      string `json:"type"`
-	Code      int    `json:"code"`
-	Subcode   int    `json:"error_subcode,omitempty"`
-	ErrorData *struct {
+	Message        string `json:"message"`
+	Type           string `json:"type"`
+	Code           int    `json:"code"`
+	Subcode        int    `json:"error_subcode,omitempty"`
+	ErrorUserTitle string `json:"error_user_title,omitempty"`
+	ErrorUserMsg   string `json:"error_user_msg,omitempty"`
+	ErrorData      *struct {
 		Details string `json:"details"`
 	} `json:"error_data,omitempty"`
 	FBTraceID string `json:"fbtrace_id"`
@@ -258,13 +260,15 @@ func (c *CloudClient) buildError(merr *metaError, httpCode int) error {
 	}
 
 	return &wapi.Error{
-		Code:      merr.Code,
-		Subcode:   merr.Subcode,
-		Message:   merr.Message,
-		Type:      errType,
-		FBTraceID: merr.FBTraceID,
-		HTTPCode:  httpCode,
-		Details:   details,
+		Code:        merr.Code,
+		Subcode:     merr.Subcode,
+		Message:     merr.Message,
+		UserTitle:   merr.ErrorUserTitle,
+		UserMessage: merr.ErrorUserMsg,
+		Type:        errType,
+		FBTraceID:   merr.FBTraceID,
+		HTTPCode:    httpCode,
+		Details:     details,
 	}
 }
 

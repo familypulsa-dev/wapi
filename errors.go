@@ -15,16 +15,24 @@ const (
 
 // Error represents a WhatsApp Cloud API error.
 type Error struct {
-	Code      int
-	Subcode   int
-	Message   string
-	Type      ErrorType
-	FBTraceID string
-	HTTPCode  int
-	Details   string
+	Code        int
+	Subcode     int
+	Message     string
+	UserTitle   string
+	UserMessage string
+	Type        ErrorType
+	FBTraceID   string
+	HTTPCode    int
+	Details     string
 }
 
 func (e *Error) Error() string {
+	if e.UserMessage != "" {
+		if e.UserTitle != "" {
+			return fmt.Sprintf("wapi: [%d] %s — %s: %s (trace: %s)", e.Code, e.Message, e.UserTitle, e.UserMessage, e.FBTraceID)
+		}
+		return fmt.Sprintf("wapi: [%d] %s — %s (trace: %s)", e.Code, e.Message, e.UserMessage, e.FBTraceID)
+	}
 	return fmt.Sprintf("wapi: [%d] %s (trace: %s)", e.Code, e.Message, e.FBTraceID)
 }
 

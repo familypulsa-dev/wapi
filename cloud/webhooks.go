@@ -9,6 +9,16 @@ import (
 	"github.com/familypulsa-dev/wapi/types"
 )
 
+// GetAppSubscriptions returns the global webhook subscriptions for the App.
+func (c *CloudClient) GetAppSubscriptions(ctx context.Context, appID string) (*types.SubscriptionResponse, error) {
+	path := fmt.Sprintf("%s/subscriptions", appID)
+	var resp types.SubscriptionResponse
+	if err := c.do(ctx, "GET", path, nil, &resp); err != nil {
+		return nil, fmt.Errorf("get app subscriptions: %w", err)
+	}
+	return &resp, nil
+}
+
 // SubscribeToWebhooks subscribes the app to webhook events for the WABA.
 func (c *CloudClient) SubscribeToWebhooks(ctx context.Context, wabaID string) (*types.SubscribedApp, error) {
 	path := fmt.Sprintf("%s/subscribed_apps", wabaID)

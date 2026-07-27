@@ -27,6 +27,9 @@ type Client interface {
 	GetTemplate(ctx context.Context, templateID string) (*types.Template, error)
 	ListTemplates(ctx context.Context, wabaID string, opts ...ListOption) (*types.TemplateList, error)
 
+	CreatePhoneNumber(ctx context.Context, wabaID string, req *types.CreatePhoneNumberRequest) (*types.CreatePhoneNumberResponse, error)
+	RequestVerificationCode(ctx context.Context, phoneNumberID, codeMethod, language string) error
+	VerifyCode(ctx context.Context, phoneNumberID, code string) error
 	RegisterPhone(ctx context.Context, phoneNumberID, pin string) error
 	DeregisterPhone(ctx context.Context, phoneNumberID string) error
 	GetPhoneNumber(ctx context.Context, phoneNumberID string) (*types.PhoneNumber, error)
@@ -40,6 +43,7 @@ type Client interface {
 	ListWhatsAppBusinessAccounts(ctx context.Context, businessID string, opts ...ListOption) (*types.WABAList, error)
 	GetWABAPricingAnalytics(ctx context.Context, wabaID string, start, end int64) (*types.WhatsAppPricingAnalyticsResponse, error)
 
+	GetAppSubscriptions(ctx context.Context, appID string) (*types.SubscriptionResponse, error)
 	SubscribeToWebhooks(ctx context.Context, wabaID string) (*types.SubscribedApp, error)
 	UnsubscribeFromWebhooks(ctx context.Context, wabaID string) error
 	GetWebhookSubscription(ctx context.Context, wabaID string) (*types.SubscribedApp, error)
