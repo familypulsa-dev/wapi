@@ -89,11 +89,19 @@ func (h *Handler) handle(w http.ResponseWriter, r *http.Request) {
 
 	for _, entry := range payload.Entry {
 		for _, change := range entry.Changes {
-			if change.Value == nil {
+			if len(change.Value) == 0 {
 				continue
 			}
 
-			v := change.Value
+			if change.Field != "messages" {
+				continue
+			}
+
+			var v types.WebhookValue
+			if err := json.Unmarshal(change.Value, &v); err != nil {
+				h.log("webhook: decode value: %v", err)
+				continue
+			}
 
 			if len(v.Messages) > 0 && h.OnMessage != nil {
 				msg := v.Messages[0]

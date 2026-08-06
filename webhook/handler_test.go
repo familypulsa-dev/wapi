@@ -11,6 +11,11 @@ import (
 	"github.com/familypulsa-dev/wapi/webhook"
 )
 
+func rawValue(v any) json.RawMessage {
+	b, _ := json.Marshal(v)
+	return b
+}
+
 func makeTextPayload(body string) types.WebhookPayload {
 	return types.WebhookPayload{
 		Object: "whatsapp_business_account",
@@ -18,7 +23,7 @@ func makeTextPayload(body string) types.WebhookPayload {
 			ID: "waba-123",
 			Changes: []*types.WebhookChange{{
 				Field: "messages",
-				Value: &types.WebhookValue{
+				Value: rawValue(&types.WebhookValue{
 					MessagingProduct: "whatsapp",
 					Metadata:         &types.Metadata{DisplayPhoneNumber: "+16505555555", PhoneNumberID: "pnid-123"},
 					Contacts:         []*types.WaContact{{Profile: &types.Profile{Name: "John Doe"}, WaID: "16505551234"}},
@@ -26,7 +31,7 @@ func makeTextPayload(body string) types.WebhookPayload {
 						From: "16505551234", ID: "wamid.abc", Timestamp: "1683229471", Type: "text",
 						Text: &types.IncomingText{Body: body},
 					}},
-				},
+				}),
 			}},
 		}},
 	}
@@ -39,7 +44,7 @@ func makeImagePayload() types.WebhookPayload {
 			ID: "waba-123",
 			Changes: []*types.WebhookChange{{
 				Field: "messages",
-				Value: &types.WebhookValue{
+				Value: rawValue(&types.WebhookValue{
 					MessagingProduct: "whatsapp",
 					Metadata:         &types.Metadata{DisplayPhoneNumber: "+16505555555", PhoneNumberID: "pnid-123"},
 					Contacts:         []*types.WaContact{{Profile: &types.Profile{Name: "John"}, WaID: "16505551234"}},
@@ -47,7 +52,7 @@ func makeImagePayload() types.WebhookPayload {
 						From: "16505551234", ID: "wamid.img", Timestamp: "1683229471", Type: "image",
 						Image: &types.IncomingMedia{ID: "media-123", MimeType: "image/jpeg"},
 					}},
-				},
+				}),
 			}},
 		}},
 	}
@@ -60,7 +65,7 @@ func makeInteractivePayload(interactiveType string) types.WebhookPayload {
 			ID: "waba-123",
 			Changes: []*types.WebhookChange{{
 				Field: "messages",
-				Value: &types.WebhookValue{
+				Value: rawValue(&types.WebhookValue{
 					MessagingProduct: "whatsapp",
 					Metadata:         &types.Metadata{DisplayPhoneNumber: "+16505555555", PhoneNumberID: "pnid-123"},
 					Contacts:         []*types.WaContact{{Profile: &types.Profile{Name: "John"}, WaID: "16505551234"}},
@@ -71,7 +76,7 @@ func makeInteractivePayload(interactiveType string) types.WebhookPayload {
 							InButtonReply: &types.IncomingButtonReply{ID: "btn_yes", Title: "Yes"},
 						},
 					}},
-				},
+				}),
 			}},
 		}},
 	}
@@ -84,7 +89,7 @@ func makeStatusPayload(status string) types.WebhookPayload {
 			ID: "waba-123",
 			Changes: []*types.WebhookChange{{
 				Field: "messages",
-				Value: &types.WebhookValue{
+				Value: rawValue(&types.WebhookValue{
 					MessagingProduct: "whatsapp",
 					Metadata:         &types.Metadata{DisplayPhoneNumber: "+16505555555", PhoneNumberID: "pnid-123"},
 					Statuses: []*types.StatusUpdate{{
@@ -95,7 +100,7 @@ func makeStatusPayload(status string) types.WebhookPayload {
 						},
 						Pricing: &types.StatusPricing{Billable: true, PricingModel: "CBP", Category: "marketing"},
 					}},
-				},
+				}),
 			}},
 		}},
 	}
@@ -108,7 +113,7 @@ func makeFailedStatusPayload() types.WebhookPayload {
 			ID: "waba-123",
 			Changes: []*types.WebhookChange{{
 				Field: "messages",
-				Value: &types.WebhookValue{
+				Value: rawValue(&types.WebhookValue{
 					MessagingProduct: "whatsapp",
 					Metadata:         &types.Metadata{DisplayPhoneNumber: "+16505555555", PhoneNumberID: "pnid-123"},
 					Statuses: []*types.StatusUpdate{{
@@ -119,7 +124,7 @@ func makeFailedStatusPayload() types.WebhookPayload {
 							ErrorData: &types.StatusErrorData{Details: "Send a template message instead"},
 						}},
 					}},
-				},
+				}),
 			}},
 		}},
 	}

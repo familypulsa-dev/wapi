@@ -1,5 +1,7 @@
 package types
 
+import "encoding/json"
+
 // WebhookPayload is the root object received from Meta webhooks.
 type WebhookPayload struct {
 	Object string          `json:"object"`
@@ -12,19 +14,50 @@ type WebhookEntry struct {
 	Changes []*WebhookChange `json:"changes"`
 }
 
-// WebhookChange holds the actual message or status update payload.
+// WebhookChange holds a raw payload. Decode Value into the struct
+// matching Field, e.g. "messages" -> WebhookValue,
+// "message_template_status_update" -> TemplateStatusValue.
 type WebhookChange struct {
-	Value *WebhookValue `json:"value"`
-	Field string        `json:"field"`
+	Value json.RawMessage `json:"value"`
+	Field string          `json:"field"`
 }
 
-// WebhookValue contains the actual payload: messages, statuses, contacts, and metadata.
+// WebhookValue contains the actual payload for the "messages" field:
+// messages, statuses, contacts, and metadata.
 type WebhookValue struct {
 	MessagingProduct string          `json:"messaging_product"`
 	Metadata         *Metadata       `json:"metadata"`
 	Contacts         []*WaContact    `json:"contacts,omitempty"`
 	Messages         []*IncomingMsg  `json:"messages,omitempty"`
 	Statuses         []*StatusUpdate `json:"statuses,omitempty"`
+}
+
+// TemplateStatusValue contains the payload for the
+// "message_template_status_update" field.
+type TemplateStatusValue struct {
+	Event                   string          `json:"event,omitempty"`
+	MessageTemplateID       int64           `json:"message_template_id,omitempty"`
+	MessageTemplateName     string          `json:"message_template_name,omitempty"`
+	MessageTemplateLanguage string          `json:"message_template_language,omitempty"`
+	Reason                  string          `json:"reason,omitempty"`
+	MessageTemplateCategory string          `json:"message_template_category,omitempty"`
+	DisableInfo             *DisableInfo    `json:"disable_info,omitempty"`
+	OtherInfo               *OtherInfo      `json:"other_info,omitempty"`
+	RejectionInfo           *RejectionInfo  `json:"rejection_info,omitempty"`
+}
+
+type DisableInfo struct {
+	DisableDate string `json:"disable_date"`
+}
+
+type OtherInfo struct {
+	Title       string `json:"title"`
+	Description string `json:"description"`
+}
+
+type RejectionInfo struct {
+	Reason         string `json:"reason"`
+	Recommendation string `json:"recommendation"`
 }
 
 type Metadata struct {
