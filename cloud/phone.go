@@ -17,6 +17,16 @@ func (c *CloudClient) CreatePhoneNumber(ctx context.Context, wabaID string, req 
 	return &resp, nil
 }
 
+// UpdateDisplayName requests a display name change for a phone number.
+// The new name is subject to Meta review via name_status.
+func (c *CloudClient) UpdateDisplayName(ctx context.Context, phoneNumberID string, req *types.UpdateDisplayNameRequest) error {
+	if req.MessagingProduct == "" {
+		req.MessagingProduct = "whatsapp"
+	}
+	path := fmt.Sprintf("%s", phoneNumberID)
+	return c.do(ctx, "POST", path, req, nil)
+}
+
 // RequestVerificationCode sends a verification code via SMS or VOICE.
 func (c *CloudClient) RequestVerificationCode(ctx context.Context, phoneNumberID, codeMethod, language string) error {
 	path := fmt.Sprintf("%s/request_code?code_method=%s&language=%s", phoneNumberID, codeMethod, language)

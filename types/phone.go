@@ -46,3 +46,10 @@ type CreatePhoneNumberRequest struct {
 type CreatePhoneNumberResponse struct {
 	ID string `json:"id"`
 }
+
+// UpdateDisplayNameRequest carries the payload for requesting a display name
+// change on a WhatsApp Business phone number.
+type UpdateDisplayNameRequest struct {
+	MessagingProduct string `json:"messaging_product"`
+	NewDisplayName   string `json:"new_display_name"`
+}

@@ -28,6 +28,7 @@ type Client interface {
 	ListTemplates(ctx context.Context, wabaID string, opts ...ListOption) (*types.TemplateList, error)
 
 	CreatePhoneNumber(ctx context.Context, wabaID string, req *types.CreatePhoneNumberRequest) (*types.CreatePhoneNumberResponse, error)
+	UpdateDisplayName(ctx context.Context, phoneNumberID string, req *types.UpdateDisplayNameRequest) error
 	RequestVerificationCode(ctx context.Context, phoneNumberID, codeMethod, language string) error
 	VerifyCode(ctx context.Context, phoneNumberID, code string) error
 	RegisterPhone(ctx context.Context, phoneNumberID, pin string) error
