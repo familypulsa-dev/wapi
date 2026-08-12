@@ -67,6 +67,7 @@ type Template struct {
 	Language              string               `json:"language,omitempty"`
 	Category              string               `json:"category,omitempty"`
 	Status                string               `json:"status,omitempty"`
+	RejectedReason        string               `json:"rejected_reason,omitempty"`
 	MessageSendTTLSeconds *int                 `json:"message_send_ttl_seconds,omitempty"`
 	ParameterFormat       string               `json:"parameter_format,omitempty"`
 	Components            []*TemplateComponent `json:"components,omitempty"`
