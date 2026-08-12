@@ -34,7 +34,7 @@ type Client interface {
 	RegisterPhone(ctx context.Context, phoneNumberID, pin string) error
 	DeregisterPhone(ctx context.Context, phoneNumberID string) error
 	GetPhoneNumber(ctx context.Context, phoneNumberID string) (*types.PhoneNumber, error)
-	ListPhoneNumbers(ctx context.Context, wabaID string) ([]*types.PhoneNumber, error)
+	ListPhoneNumbers(ctx context.Context, wabaID string, opts ...ListOption) (*types.PhoneNumberList, error)
 	SetTwoStepPIN(ctx context.Context, phoneNumberID, pin string) error
 
 	GetBusinessProfile(ctx context.Context, phoneNumberID string) (*types.BusinessProfile, error)
