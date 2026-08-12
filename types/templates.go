@@ -50,12 +50,13 @@ func (c *TemplateMsgComponent) MarshalJSON() ([]byte, error) {
 
 // TemplateParameter is a value for template variables (text, image, video, document).
 type TemplateParameter struct {
-	Type       string    `json:"type"`
-	Text       string    `json:"text,omitempty"`
-	Image      *Media    `json:"image,omitempty"`
-	Video      *Media    `json:"video,omitempty"`
-	Document   *Document `json:"document,omitempty"`
-	CouponCode string    `json:"coupon_code,omitempty"`
+	Type          string    `json:"type"`
+	ParameterName string    `json:"parameter_name,omitempty"`
+	Text          string    `json:"text,omitempty"`
+	Image         *Media    `json:"image,omitempty"`
+	Video         *Media    `json:"video,omitempty"`
+	Document      *Document `json:"document,omitempty"`
+	CouponCode    string    `json:"coupon_code,omitempty"`
 	// URL      string    `json:"url,omitempty"`
 	// OTPType  string    `json:"otp_type,omitempty"`
 }
