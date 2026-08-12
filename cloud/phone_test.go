@@ -102,15 +102,18 @@ func TestListPhoneNumbers(t *testing.T) {
 	defer ms.Close()
 
 	c := ms.client()
-	numbers, err := c.ListPhoneNumbers(context.Background(), "waba-456")
+	result, err := c.ListPhoneNumbers(context.Background(), "waba-456")
 	if err != nil {
 		t.Fatalf("ListPhoneNumbers failed: %v", err)
 	}
-	if len(numbers) == 0 {
+	if result == nil || len(result.Data) == 0 {
 		t.Fatal("expected at least one phone number")
 	}
-	if numbers[0].DisplayPhoneNumber != "+16505555555" {
-		t.Errorf("expected +16505555555, got %s", numbers[0].DisplayPhoneNumber)
+	if result.Data[0].DisplayPhoneNumber != "+16505555555" {
+		t.Errorf("expected +16505555555, got %s", result.Data[0].DisplayPhoneNumber)
+	}
+	if result.Paging == nil {
+		t.Fatal("expected paging in response")
 	}
 }
 

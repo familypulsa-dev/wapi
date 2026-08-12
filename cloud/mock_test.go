@@ -161,6 +161,9 @@ func newDefaultMockServer() *mockServer {
 			"data": []map[string]interface{}{
 				{"id": "123", "display_phone_number": "+16505555555"},
 			},
+			"paging": map[string]interface{}{
+				"cursors": map[string]interface{}{"before": "before-cursor", "after": "after-cursor"},
+			},
 		})
 	})
 	ms.on("GET", "/123/whatsapp_business_profile", func(w http.ResponseWriter, r *http.Request) {

@@ -2,16 +2,16 @@ package types
 
 // PhoneNumber represents a WhatsApp Business phone number with its quality and limits.
 type PhoneNumber struct {
-	ID                     string `json:"id"`
-	DisplayPhoneNumber     string `json:"display_phone_number"`
-	VerifiedName           string `json:"verified_name"`
-	QualityRating          string `json:"quality_rating"`
-	MessagingLimit         string `json:"messaging_limit"`
-	PlatformType           string `json:"platform_type"`
-	NameStatus             string `json:"name_status"`
-	CodeVerificationStatus string `json:"code_verification_status"`
-	Status                 string `json:"status"`
-	PinEnabled             bool   `json:"pin_enabled"`
+	ID                     string      `json:"id"`
+	DisplayPhoneNumber     string      `json:"display_phone_number"`
+	VerifiedName           string      `json:"verified_name"`
+	QualityRating          string      `json:"quality_rating"`
+	MessagingLimit         string      `json:"messaging_limit"`
+	PlatformType           string      `json:"platform_type"`
+	NameStatus             string      `json:"name_status"`
+	CodeVerificationStatus string      `json:"code_verification_status"`
+	Status                 string      `json:"status"`
+	PinEnabled             bool        `json:"pin_enabled"`
 	Throughput             *Throughput `json:"throughput,omitempty"`
 }
 
@@ -45,6 +45,12 @@ type CreatePhoneNumberRequest struct {
 
 type CreatePhoneNumberResponse struct {
 	ID string `json:"id"`
+}
+
+// PhoneNumberList is the paginated response from listing phone numbers.
+type PhoneNumberList struct {
+	Data   []*PhoneNumber `json:"data"`
+	Paging *Paging        `json:"paging,omitempty"`
 }
 
 // UpdateDisplayNameRequest carries the payload for requesting a display name

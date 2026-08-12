@@ -3,7 +3,10 @@ package cloud
 import (
 	"context"
 	"fmt"
+	"net/url"
+	"strconv"
 
+	"github.com/familypulsa-dev/wapi"
 	"github.com/familypulsa-dev/wapi/types"
 )
 
@@ -67,16 +70,27 @@ func (c *CloudClient) GetPhoneNumber(ctx context.Context, phoneNumberID string) 
 	return &pn, nil
 }
 
-// ListPhoneNumbers returns all phone numbers associated with a WABA.
-func (c *CloudClient) ListPhoneNumbers(ctx context.Context, wabaID string) ([]*types.PhoneNumber, error) {
-	path := fmt.Sprintf("%s/phone_numbers?fields=%s", wabaID, phoneFields)
-	var result struct {
-		Data []*types.PhoneNumber `json:"data"`
+// ListPhoneNumbers returns phone numbers associated with a WABA with optional pagination
+// (wapi.WithLimit, wapi.WithOffset).
+func (c *CloudClient) ListPhoneNumbers(ctx context.Context, wabaID string, opts ...wapi.ListOption) (*types.PhoneNumberList, error) {
+	params := &wapi.ListParams{}
+	for _, opt := range opts {
+		opt(params)
 	}
+
+	path := fmt.Sprintf("%s/phone_numbers?fields=%s", wabaID, phoneFields)
+	if params.Limit > 0 {
+		path += "&limit=" + strconv.Itoa(params.Limit)
+	}
+	if params.Offset != "" {
+		path += "&after=" + url.QueryEscape(params.Offset)
+	}
+
+	var result types.PhoneNumberList
 	if err := c.do(ctx, "GET", path, nil, &result); err != nil {
 		return nil, fmt.Errorf("list phone numbers: %w", err)
 	}
-	return result.Data, nil
+	return &result, nil
 }
 
 // SetTwoStepPIN enables or changes the 6-digit PIN for two-step verification.
