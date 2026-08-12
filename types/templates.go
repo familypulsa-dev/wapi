@@ -77,6 +77,7 @@ type Template struct {
 type TemplateComponent struct {
 	Type                      string            `json:"type"`
 	AddSecurityRecommendation *bool             `json:"add_security_recommendation,omitempty"`
+	CodeExpirationMinutes     *int              `json:"code_expiration_minutes,omitempty"`
 	Format                    string            `json:"format,omitempty"`
 	Text                      string            `json:"text,omitempty"`
 	Example                   json.RawMessage   `json:"example,omitempty"`
@@ -84,10 +85,13 @@ type TemplateComponent struct {
 }
 
 type TemplateButton struct {
-	Type    string `json:"type"`
-	Text    string `json:"text"`
-	URL     string `json:"url,omitempty"`
-	OTPType string `json:"otp_type,omitempty"`
+	Type          string `json:"type"`
+	Text          string `json:"text"`
+	URL           string `json:"url,omitempty"`
+	OTPType       string `json:"otp_type,omitempty"`
+	AutofillText  string `json:"autofill_text,omitempty"`
+	PackageName   string `json:"package_name,omitempty"`
+	SignatureHash string `json:"signature_hash,omitempty"`
 }
 
 // TemplateList is the paginated response from listing templates.
