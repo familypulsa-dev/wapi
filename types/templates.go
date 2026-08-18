@@ -14,12 +14,13 @@ type TemplateLanguage struct {
 	Code string `json:"code"`
 }
 
-// TemplateMsgComponent is a component of a template message (header, body, button).
+// TemplateMsgComponent is a component of a template message (header, body, button, carousel).
 type TemplateMsgComponent struct {
 	Type       string               `json:"type"`
 	SubType    string               `json:"sub_type,omitempty"`
 	Index      int                  `json:"index,omitempty"`
 	Parameters []*TemplateParameter `json:"parameters,omitempty"`
+	Cards      json.RawMessage      `json:"cards,omitempty"` // carousel media cards
 }
 
 // HasIndex reports whether the component has a meaningful index (for button components).
@@ -87,6 +88,7 @@ type TemplateComponent struct {
 	Text                      string            `json:"text,omitempty"`
 	Example                   json.RawMessage   `json:"example,omitempty"`
 	Buttons                   []*TemplateButton `json:"buttons,omitempty"`
+	Cards                     json.RawMessage   `json:"cards,omitempty"` // carousel media cards
 }
 
 type TemplateButton struct {
