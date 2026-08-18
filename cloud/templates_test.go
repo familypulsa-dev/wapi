@@ -2,6 +2,7 @@ package cloud_test
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 	"testing"
 
@@ -13,13 +14,14 @@ func TestCreateTemplate(t *testing.T) {
 	defer ms.Close()
 
 	c := ms.client()
+	components, _ := json.Marshal([]*types.TemplateComponent{
+		{Type: "body", Text: "Hi {{1}}, your order is confirmed."},
+	})
 	tpl := &types.Template{
-		Name:     "order_confirmation",
-		Language: "en_US",
-		Category: "utility",
-		Components: []*types.TemplateComponent{
-			{Type: "body", Text: "Hi {{1}}, your order is confirmed."},
-		},
+		Name:       "order_confirmation",
+		Language:   "en_US",
+		Category:   "utility",
+		Components: components,
 	}
 
 	created, err := c.CreateTemplate(context.Background(), "waba-456", tpl)

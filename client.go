@@ -13,6 +13,8 @@ import (
 type Client interface {
 	SendMessage(ctx context.Context, phoneNumberID string, msg *types.Message) (*types.SendResponse, error)
 	SendMarketing(ctx context.Context, phoneNumberID string, msg *types.Message) (*types.SendResponse, error)
+	SendMessageRaw(ctx context.Context, phoneNumberID string, payload any) (*types.SendResponse, error)
+	SendMarketingRaw(ctx context.Context, phoneNumberID string, payload any) (*types.SendResponse, error)
 	SendTyping(ctx context.Context, phoneNumberID, messageID string) error
 	MarkAsRead(ctx context.Context, phoneNumberID string, messageID string) error
 

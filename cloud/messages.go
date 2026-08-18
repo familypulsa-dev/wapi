@@ -34,6 +34,28 @@ func (c *CloudClient) SendMarketing(ctx context.Context, phoneNumberID string, m
 	return &resp, nil
 }
 
+// SendMessageRaw forwards a raw payload to the messages endpoint as-is.
+// The payload is passed through verbatim, so components (e.g. location) that are
+// not covered by the typed Message struct are preserved.
+func (c *CloudClient) SendMessageRaw(ctx context.Context, phoneNumberID string, payload any) (*types.SendResponse, error) {
+	path := fmt.Sprintf("%s/messages", phoneNumberID)
+	var resp types.SendResponse
+	if err := c.do(ctx, "POST", path, payload, &resp); err != nil {
+		return nil, fmt.Errorf("send message: %w", err)
+	}
+	return &resp, nil
+}
+
+// SendMarketingRaw forwards a raw payload to the marketing_messages endpoint as-is.
+func (c *CloudClient) SendMarketingRaw(ctx context.Context, phoneNumberID string, payload any) (*types.SendResponse, error) {
+	path := fmt.Sprintf("%s/marketing_messages", phoneNumberID)
+	var resp types.SendResponse
+	if err := c.do(ctx, "POST", path, payload, &resp); err != nil {
+		return nil, fmt.Errorf("send message: %w", err)
+	}
+	return &resp, nil
+}
+
 // MarkAsRead marks an incoming message as read. messageID must be an incoming message ID.
 func (c *CloudClient) MarkAsRead(ctx context.Context, phoneNumberID string, messageID string) error {
 	msg := types.NewMarkAsRead(messageID)
