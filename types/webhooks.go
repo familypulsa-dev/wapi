@@ -244,3 +244,35 @@ type SubscriptionResponse struct {
 	Data   []*Subscription `json:"data,omitempty"`
 	Fields string          `json:"fields,omitempty"`
 }
+
+// AccountReviewUpdateValue contains the payload for the
+// "account_review_update" webhook field.
+type AccountReviewUpdateValue struct {
+	Decision string `json:"decision"`
+}
+
+// AccountUpdateValue contains the payload for the
+// "account_update" webhook field.
+type AccountUpdateValue struct {
+	Event string `json:"event"`
+}
+
+// PhoneNumberQualityUpdateValue contains the payload for the
+// "phone_number_quality_update" webhook field.
+type PhoneNumberQualityUpdateValue struct {
+	DisplayPhoneNumber               string `json:"display_phone_number"`
+	Event                            string `json:"event,omitempty"`
+	OldLimit                         string `json:"old_limit,omitempty"`
+	CurrentLimit                     string `json:"current_limit,omitempty"`
+	MaxDailyConversationsPerBusiness string `json:"max_daily_conversations_per_business,omitempty"`
+}
+
+// MessageTemplateQualityUpdateValue contains the payload for the
+// "message_template_quality_update" webhook field.
+type MessageTemplateQualityUpdateValue struct {
+	PreviousQualityScore    string `json:"previous_quality_score"`
+	NewQualityScore         string `json:"new_quality_score"`
+	MessageTemplateID       int64  `json:"message_template_id"`
+	MessageTemplateName     string `json:"message_template_name"`
+	MessageTemplateLanguage string `json:"message_template_language"`
+}

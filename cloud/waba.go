@@ -18,6 +18,7 @@ func (c *CloudClient) ListWhatsAppBusinessAccounts(ctx context.Context, business
 	}
 
 	v := url.Values{}
+	v.Set("fields", "id,name,currency,timezone_id,message_template_namespace,status,whatsapp_business_manager_messaging_limit")
 	if params.Limit > 0 {
 		v.Set("limit", strconv.Itoa(params.Limit))
 	}

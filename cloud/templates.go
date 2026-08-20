@@ -55,6 +55,8 @@ func (c *CloudClient) ListTemplates(ctx context.Context, wabaID string, opts ...
 		v.Set("after", params.Offset)
 	}
 
+	v.Set("fields", "name,parameter_format,components,language,status,category,disable_ios_autofill,is_primary_device_delivery_only,id,quality_score")
+
 	path := fmt.Sprintf("%s/message_templates", wabaID)
 	var list types.TemplateList
 	if err := c.doGet(ctx, path, v, &list); err != nil {

@@ -67,6 +67,12 @@ type TemplateParameter struct {
 	// OTPType  string    `json:"otp_type,omitempty"`
 }
 
+// QualityScore holds the quality rating of a template.
+type QualityScore struct {
+	Score string `json:"score"`
+	Date  int64  `json:"date"`
+}
+
 // Template is a message template definition for CRUD operations.
 type Template struct {
 	ID                    string               `json:"id,omitempty"`
@@ -76,8 +82,9 @@ type Template struct {
 	Status                string               `json:"status,omitempty"`
 	RejectedReason        string               `json:"rejected_reason,omitempty"`
 	MessageSendTTLSeconds *int                 `json:"message_send_ttl_seconds,omitempty"`
-	ParameterFormat       string          `json:"parameter_format,omitempty"`
-	Components            json.RawMessage `json:"components,omitempty"`
+	ParameterFormat       string               `json:"parameter_format,omitempty"`
+	Components            json.RawMessage      `json:"components,omitempty"`
+	QualityScore          *QualityScore        `json:"quality_score,omitempty"`
 }
 
 type TemplateComponent struct {
